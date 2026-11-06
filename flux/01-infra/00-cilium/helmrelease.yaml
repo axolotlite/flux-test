@@ -5,15 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 15m
-  timeout:
-    install: 10m
-    upgrade: 10m
-    uninstall: 10m
+  timeout: "10m"
   # Cilium runs in kube-system; the release object itself stays in flux-system
-  install:
-    namespace: kube-system
-  update:
-    namespace: kube-system
+  targetNamespace: kube-system
   chart:
     spec:
       chart: cilium
