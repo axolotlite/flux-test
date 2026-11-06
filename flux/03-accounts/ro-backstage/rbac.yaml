@@ -1,0 +1,42 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: backstage-k8s-readonly
+rules:
+  - apiGroups: ['', 'apps', 'batch', 'autoscaling', 'networking.k8s.io']
+    resources:
+      - namespaces
+      - pods
+      - pods/log
+      - services
+      - endpoints
+      - configmaps
+      - limitranges
+      - resourcequotas
+      - deployments
+      - replicasets
+      - daemonsets
+      - statefulsets
+      - jobs
+      - cronjobs
+      - horizontalpodautoscalers
+      - ingresses
+      - events
+    verbs: ['get', 'list', 'watch']
+  - apiGroups: ['metrics.k8s.io']
+    resources: ['pods', 'nodes']
+    verbs: ['get', 'list']
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: backstage-k8s-readonly
+subjects:
+  - kind: ServiceAccount
+    name: backstage-k8s-reader
+    namespace: backstage
+roleRef:
+  kind: ClusterRole
+  name: backstage-k8s-readonly
+  apiGroup: rbac.authorization.k8s.io
