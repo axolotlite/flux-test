@@ -1,0 +1,14 @@
+# Cilium Helm values — minimum config for kind
+# Docs: https://docs.cilium.io/en/stable/installation/kind/
+
+image:
+  # Use the image preloaded into kind nodes via `kind load docker-image`
+  pullPolicy: IfNotPresent
+
+ipam:
+  # Use Kubernetes built-in IPAM (kind's default)
+  mode: kubernetes
+
+# --- Optional: enable to replace kube-proxy with Cilium's Socket LB ---
+# Requires cgroup v2 on the host. Uncomment only if supported.
+# kubeProxyReplacement: true
