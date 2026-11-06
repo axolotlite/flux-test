@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: flux-system
+spec:
+  interval: 15m
+  timeout:
+    install: 10m
+    upgrade: 10m
+    uninstall: 10m
+  # Cilium runs in kube-system; the release object itself stays in flux-system
+  install:
+    namespace: kube-system
+  update:
+    namespace: kube-system
+  chart:
+    spec:
+      chart: cilium
+      # Pin to the version you pre-load into kind (see cilium/install.sh)
+      version: "1.20.4"
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: flux-system
+  # Values ported from cilium/values.yaml (kind: built-in IPAM + preloaded image)
+  values:
+    image:
+      pullPolicy: IfNotPresent   # uses the image loaded via `kind load docker-image`
+    ipam:
+      mode: kubernetes           # kind's default is Kubernetes built-in IPAM
+    # --- Optional: replace kube-proxy (needs cgroup v2 on the host) ---
+    # kubeProxyReplacement: true

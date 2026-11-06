@@ -1,0 +1,17 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra
+  namespace: flux-system
+spec:
+  interval: 5m
+  timeout: 10m
+  # path is relative to the repo root, so it carries the flux/ prefix
+  path: ./flux/01-infra
+  prune: true
+  # wait:false so a slow/CNI infra install never blocks the rest of the sync
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
