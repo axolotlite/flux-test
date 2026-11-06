@@ -1,0 +1,14 @@
+# Cluster: idp-cluster (create with: kind create cluster --name idp-cluster --config kind-cluster/kind-config.yaml)
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+    image: kindest/node:v1.36.4
+  - role: worker
+    image: kindest/node:v1.36.4
+  - role: worker
+    image: kindest/node:v1.36.4
+networking:
+  # Set to true to skip installing the default CNI (kindnetd).
+  # Useful when you plan to install a custom CNI (Calico, Cilium, Flannel, etc.).
+  disableDefaultCNI: true
