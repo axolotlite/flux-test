@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: <%= parameters.app %>
+    backstage.io/kubernetes-id: idp-cluster
+  name: <%= parameters.app %>
+  namespace: backstage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: <%= parameters.app %>
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        backstage.io/kubernetes-id: idp-cluster
+        app: <%= parameters.app %>
+    spec:
+      containers:
+        - image: <%= parameters.image %>
+          name: <%= parameters.app %>
+          resources: {}
