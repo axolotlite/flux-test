@@ -12,6 +12,7 @@ rules:
       - services
       - endpoints
       - configmaps
+      - secrets
       - limitranges
       - resourcequotas
       - deployments
