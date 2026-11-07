@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: nginx
-    backstage.io/kubernetes-id: test-backstage
+    backstage.io/kubernetes-id: idp-cluster
   name: nginx
   namespace: backstage
 spec:
@@ -15,6 +15,7 @@ spec:
   template:
     metadata:
       labels:
+        backstage.io/kubernetes-id: idp-cluster
         app: nginx
     spec:
       containers:
