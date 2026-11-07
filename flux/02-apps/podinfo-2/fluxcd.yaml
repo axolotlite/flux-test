@@ -11,8 +11,8 @@ spec:
   path: ./kustomize
   prune: true
   wait: true
-  # deploy into the default namespace (podinfo manifests declare no namespace)
-  targetNamespace: default
+  # deploy into the backstage namespace (podinfo manifests declare no namespace)
+  targetNamespace: backstage
   sourceRef:
     kind: GitRepository
     name: podinfo
