@@ -1,0 +1,31 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo
+  namespace: backstage
+spec:
+  interval: 30m
+  timeout: 3m
+  retryInterval: 2m
+  # relative to the EXTERNAL podinfo GitRepository, so it stays ./kustomize
+  path: ./kustomize
+  prune: true
+  wait: true
+  # deploy into the default namespace (podinfo manifests declare no namespace)
+  targetNamespace: default
+  sourceRef:
+    kind: GitRepository
+    name: podinfo
+    namespace: backstage
+  # ported from the old clusters/idp-cluster config: keep HPA from scaling to 0
+  patches:
+    - patch: |-
+        apiVersion: autoscaling/v2
+        kind: HorizontalPodAutoscaler
+        metadata:
+          name: podinfo
+        spec:
+          minReplicas: 2
+      target:
+        name: podinfo
+        kind: HorizontalPodAutoscaler
