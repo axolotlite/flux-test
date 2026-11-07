@@ -12,7 +12,6 @@ rules:
       - services
       - endpoints
       - configmaps
-      - secrets
       - limitranges
       - resourcequotas
       - deployments
@@ -40,4 +39,31 @@ subjects:
 roleRef:
   kind: ClusterRole
   name: backstage-k8s-readonly
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: backstage-flux-readonly
+  namespace: backstage
+rules:
+  - apiGroups: ['source.toolkit.fluxcd.io']
+    resources: ['gitrepositories']
+    verbs: ['get', 'list', 'watch']
+  - apiGroups: ['kustomize.toolkit.fluxcd.io']
+    resources: ['kustomizations']
+    verbs: ['get', 'list', 'watch']
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: backstage-flux-readonly
+  namespace: backstage
+subjects:
+  - kind: ServiceAccount
+    name: backstage-k8s-reader
+    namespace: backstage
+roleRef:
+  kind: Role
+  name: backstage-flux-readonly
   apiGroup: rbac.authorization.k8s.io
