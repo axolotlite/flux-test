@@ -5,6 +5,7 @@ metadata:
     app: nginx
     backstage.io/kubernetes-id: test-backstage
   name: nginx
+  namespace: backstage
 spec:
   replicas: 1
   selector:
